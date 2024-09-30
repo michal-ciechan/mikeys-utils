@@ -1,0 +1,130 @@
+﻿@page "/date-time"
+@using System.Globalization
+
+<PageTitle>Date & Time Converter</PageTitle>
+
+<h1 class="text-center text-lg-center text-primary">Date & Time Converter</h1>
+
+
+<div class="row gy-2 mb-2">
+    <div class="col">
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Input Date / Time</span>
+            <input type="text" class="form-control form-control-lg" placeholder="Input Date/Time String Here" @bind="_input" @bind:after="OnInputChanged" @bind:event="oninput"/>
+        </div>
+    </div>
+</div>
+<div class="row gy-4">
+    @foreach (var parsedModel in _parsedModels)
+    {
+        <div class="col-12 col-xxl-6">
+            <div class="card h-100">
+                <h5 class="card-header"><small class="text-muted">Parsed as</small> <strong>@parsedModel.DateTimeType.ToDescription()</strong></h5>
+                <div class="card-body">
+
+                    @foreach (var displayType in _outputTypes)
+                    {
+                        if (string.IsNullOrWhiteSpace(parsedModel.DateTime.ToString(displayType)))
+                        {
+                            // Console.WriteLine($"Ignoring {displayType} as string.IsNullOrWhiteSpace(parsedModel.DateTime.ToString(displayType))");
+                            continue;
+                        }
+
+                        if (displayType.IsTimeOnly() && !parsedModel.DateTimeType.HasTime())
+                        {
+                            // Console.WriteLine($"Ignoring {displayType} as displayType.IsTimeOnly() && !parsedModel.DateTimeType.HasTime()");
+                            continue;
+                        }
+
+                        if (displayType.IsDateOnly() && !parsedModel.DateTimeType.HasDate())
+                        {
+                            // Console.WriteLine($"Ignoring {displayType} as displayType.IsDateOnly() && !parsedModel.DateTimeType.HasDate()");
+                            continue;
+                        }
+
+                        if (parsedModel.DateTimeType.IsTimeOnly() && !displayType.HasTime())
+                        {
+                            // Console.WriteLine($"Ignoring {displayType} as parsedModel.DateTimeType.IsTimeOnly() && !displayType.HasTime()");
+                            continue;
+                        }
+                            
+                        if (parsedModel.DateTimeType.IsDateOnly() && !displayType.HasDate())
+                        {
+                            // Console.WriteLine($"Ignoring {displayType} as parsedModel.DateTimeType.IsDateOnly() && !displayType.HasDate()");
+                            continue;
+                        }
+
+                        // Remove anything that contains time if original didn't have time
+                        if (parsedModel.DateTimeType.HasTime() != displayType.HasTime())
+                        {
+                            // Console.WriteLine($"Ignoring {displayType} as parsedModel.DateTimeType.HasTime() != displayType.HasTime()");
+                            continue;
+                        }
+                            
+                        if (parsedModel.DateTimeType.HasDate() != displayType.HasDate())
+                        {
+                            // Console.WriteLine($"Ignoring {displayType} as arsedModel.DateTimeType.HasDate() != displayType.HasDate()");
+                            continue;
+                        }
+                            
+                        <div class="row">
+                            <div class="col text-end">
+                                <p>@displayType.ToDescription():</p>
+                            </div>
+                            <div class="col">
+                                <p>@parsedModel.DateTime.ToString(displayType)</p>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+
+            </div>
+        </div>
+    }
+</div>
+
+
+@code {
+    public struct DateTimeOutputModel
+    {
+        public DateTimeType DateTimeType { get; set; }
+        public DateTime DateTime { get; set; }
+    }
+    
+    // Output
+    private List<DateTimeOutputModel> _parsedModels = new();
+    private List<DateTimeType> _outputTypes = Enum.GetValues<DateTimeType>().ToList();
+
+    // Parsing
+    private string _input = "";
+
+    private void OnInputChanged()
+    {
+        _parsedModels.Clear();
+
+        foreach (var dateTimeType in _outputTypes)
+        {
+            try
+            {
+                if (_input.TryParseAsDateTime(dateTimeType, out var dateTimeParsed))
+                {
+                    _parsedModels.Add(new()
+                        {
+                            DateTimeType = dateTimeType,
+                            DateTime = dateTimeParsed,
+                        }
+                    );
+                }
+                else
+                {
+                    Console.WriteLine($"Could not parse {_input} as {dateTimeType}");
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error parsing {_input} as {dateTimeType}. Error: {e}");
+            }
+        }
+    }
+}
