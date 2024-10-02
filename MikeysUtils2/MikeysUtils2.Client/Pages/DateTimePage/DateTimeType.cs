@@ -124,6 +124,12 @@ public static class DateTimeTypeExtensions
                     CultureInfo.InvariantCulture,
                     DateTimeStyles.AdjustToUniversal,
                     out dateTimeParsed
+                ) || DateTime.TryParseExact(
+                    _input,
+                    "THHmmss",
+                    CultureInfo.InvariantCulture,
+                    DateTimeStyles.AdjustToUniversal,
+                    out dateTimeParsed
                 );
             case DateTimeType.DateTime_UTC_ISO_8601:
                 return DateTime.TryParseExact(
@@ -143,6 +149,7 @@ public static class DateTimeTypeExtensions
                 if (longParsed >= 0 && longParsed < DateOnly.MaxValue.DayNumber)
                 {
                     dateTimeParsed = DateOnly.FromDayNumber((int)longParsed).ToDateTime();
+                    return true;
                 }
 
                 return false;

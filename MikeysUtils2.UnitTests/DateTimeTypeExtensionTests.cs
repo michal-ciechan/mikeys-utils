@@ -23,12 +23,28 @@ public class DateTimeTypeExtensionTests
         {
             Assert.Fail("Failed to parse time");
         }
-        
+
         var formatted = result.ToString("HH:mm:ss.fffff");
 
         await Assert.That(formatted).IsEqualTo(expected);
         await Assert.That(result.Kind).IsEqualTo(kind);
     }
+    
+    [Test]
+    [Arguments("0", "0001-01-01", DateTimeKind.Unspecified)]
+    [Arguments("1", "0001-01-02", DateTimeKind.Unspecified)]
+    [Arguments("739244", "2024-12-25", DateTimeKind.Unspecified)]
+    public async Task TryParseAsDateTime_DayNumber(string dayNumber, string expected, DateTimeKind kind)
+    {
+        if (!dayNumber.TryParseAsDateTime(DateTimeType.DayNumber, out var result))
+        {
+            Assert.Fail("Failed to parse DayNumber");
+        }
 
+        var formatted = result.ToString("yyyy-MM-dd");
+
+        await Assert.That(formatted).IsEqualTo(expected);
+        await Assert.That(result.Kind).IsEqualTo(kind);
+    }
     // TODO Test time parsing
 }
