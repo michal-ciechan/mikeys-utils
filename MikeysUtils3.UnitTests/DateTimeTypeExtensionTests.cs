@@ -1,6 +1,6 @@
-using MikeysUtils2.Client.Pages.DateTimePage;
+using MikeysUtils3.Pages.DateTimePage;
 
-namespace MikeysUtils2.UnitTests;
+namespace MikeysUtils3.UnitTests;
 
 public class DateTimeTypeExtensionTests
 {

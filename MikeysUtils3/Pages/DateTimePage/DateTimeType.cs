@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace MikeysUtils2.Client.Pages.DateTimePage;
+namespace MikeysUtils3.Pages.DateTimePage;
 
 
 public enum DateTimeType
@@ -267,13 +267,5 @@ public static class DateTimeTypeExtensions
             DateTimeType.yMMdd_DateInt => true,
             _ => false,
         };
-    }
-}
-
-public static class DateTimeExtensions
-{
-    public static DateOnly ToDateOnly(this DateTime dateTimeType)
-    {
-        return DateOnly.FromDateTime(dateTimeType);
     }
 }

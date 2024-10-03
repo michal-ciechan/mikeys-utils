@@ -1,6 +1,4 @@
-﻿using MikeysUtils2.Client.Pages.DateTimePage;
-
-namespace MikeysUtils2.Client;
+﻿namespace MikeysUtils3.Pages.DateTimePage;
 
 public static class DateTimeExtensions
 {
@@ -17,5 +15,10 @@ public static class DateTimeExtensions
     public static TimeSpan SinceEpoch(this DateTime dateTime)
     {
         return new TimeSpan(dateTime.Ticks - dateTime.Ticks % TimeSpan.TicksPerSecond);
+    }
+    
+    public static DateOnly ToDateOnly(this DateTime dateTimeType)
+    {
+        return DateOnly.FromDateTime(dateTimeType);
     }
 }

@@ -1,12 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MikeysUtils2", "MikeysUtils2\MikeysUtils2\MikeysUtils2.csproj", "{E54020BB-9F9D-48E9-9DB6-0B8ADE81DF4E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MikeysUtils3.UnitTests", "MikeysUtils3.UnitTests\MikeysUtils3.UnitTests.csproj", "{EC71E94F-73DE-4141-9118-EB96337CA48F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MikeysUtils2.Client", "MikeysUtils2\MikeysUtils2.Client\MikeysUtils2.Client.csproj", "{64219B39-9554-4A0B-BB04-8E440859565B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MikeysUtils2.UnitTests", "MikeysUtils2.UnitTests\MikeysUtils2.UnitTests.csproj", "{EC71E94F-73DE-4141-9118-EB96337CA48F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MikeyUtils3", "MikeyUtils3\MikeyUtils3.csproj", "{241BA87B-DDE6-4820-928B-824746B22360}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MikeysUtils3", "MikeysUtils3\MikeysUtils3.csproj", "{241BA87B-DDE6-4820-928B-824746B22360}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -14,14 +10,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E54020BB-9F9D-48E9-9DB6-0B8ADE81DF4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E54020BB-9F9D-48E9-9DB6-0B8ADE81DF4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E54020BB-9F9D-48E9-9DB6-0B8ADE81DF4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E54020BB-9F9D-48E9-9DB6-0B8ADE81DF4E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{64219B39-9554-4A0B-BB04-8E440859565B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{64219B39-9554-4A0B-BB04-8E440859565B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{64219B39-9554-4A0B-BB04-8E440859565B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{64219B39-9554-4A0B-BB04-8E440859565B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EC71E94F-73DE-4141-9118-EB96337CA48F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EC71E94F-73DE-4141-9118-EB96337CA48F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC71E94F-73DE-4141-9118-EB96337CA48F}.Release|Any CPU.ActiveCfg = Release|Any CPU
