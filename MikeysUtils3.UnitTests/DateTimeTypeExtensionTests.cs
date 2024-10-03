@@ -17,8 +17,6 @@ public class DateTimeTypeExtensionTests
     [Arguments("T000203", "00:02:03.00000", DateTimeKind.Unspecified)]
     public async Task TryParseAsDateTime_Time_UTC_ISO_8601(string time, string expected, DateTimeKind kind)
     {
-        var offset = new DateTimeOffset();
-        
         if (!time.TryParseAsDateTime(DateTimeType.Time_UTC_ISO_8601, out var result))
         {
             Assert.Fail("Failed to parse time");
