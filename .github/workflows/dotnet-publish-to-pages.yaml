@@ -1,7 +1,9 @@
 # This is a basic workflow to help you get started with Actions
 
 name: CI
-
+env:
+  DOTNET_VERSION: '8'                 # set this to the .NET Core version to use
+  
 # Controls when the workflow will run
 on:
   # Runs on pushes targeting the default branch
@@ -30,11 +32,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
+          
       - name: Set up dependency caching for faster builds
         uses: actions/cache@v3
         with:
