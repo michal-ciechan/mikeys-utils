@@ -50,15 +50,17 @@ jobs:
 
       - name: dotnet publish
         run: dotnet publish MikeysUtils3 -c Release -o ${{env.DOTNET_ROOT}}/myapp
-
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v3
-        with:
-          name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+#
+#      - name: Upload artifact for deployment job
+#        uses: actions/upload-artifact@v3
+#        with:
+#          name: .net-app
+#          path: ${{env.DOTNET_ROOT}}/myapp
             
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{env.DOTNET_ROOT}}/myapp
 
   # Deployment job
   deploy:
