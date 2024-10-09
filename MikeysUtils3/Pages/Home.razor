@@ -1,7 +1,33 @@
 ﻿@page "/"
+@using MikeysUtils3.Pages.DateTimePage
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
-
-Welcome to your new app.
+<div class="row">
+    <div class="col-12 col-lg-6 col-xxl-4">
+        <div class="card">
+            <h2 class="card-header text-center">Date & Time</h2>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-5">
+                        <input type="text" class="form-control form-control-sm" disabled="disabled" value="@DateTime.UtcNow.ToString("yyyy-MM-ddThh:MM:ssZ")" style="font-size: 0.8em" />
+                        <input type="text" class="form-control form-control-sm mt-2" disabled="disabled" value="@DateTime.UtcNow.ToString("hh:MM:ss")" />
+                        <input type="text" class="form-control form-control-sm mt-2" disabled="disabled" value="@DateTime.UtcNow.SinceEpoch().TotalMilliseconds" />
+                        <input type="text" class="form-control form-control-sm mt-2" disabled="disabled" value="@DateTime.UtcNow.ToString("yyyy-MM-dd")" />
+                        <input type="text" class="form-control form-control-sm mt-2" disabled="disabled" value="@DateTime.UtcNow.ToDateOnly().DayNumber" />
+                    </div>
+                    <div class="col-1 m-0 pt-2 d-flex flex-column justify-content-center">
+                        <i class="bi bi-arrow-right-circle-fill" style="font-size: 3em; margin-left: -15px; "></i>
+                    </div>
+                    <div class="col-5">
+                        <p>Date</p>
+                        <p>Time</p>
+                        <p>TimeZone</p>
+                        <p>Unix Timestamps</p>
+                        <p>.NET Day Number</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
