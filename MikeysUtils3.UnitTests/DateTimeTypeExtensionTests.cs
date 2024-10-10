@@ -29,6 +29,28 @@ public class DateTimeTypeExtensionTests
     }
     
     [Test]
+    [Arguments("2024-10-23 21:39:40", "2024-10-23T21:39:40.0000000", DateTimeKind.Unspecified)]
+    [Arguments("2024-10-23 21:39:40.1", "2024-10-23T21:39:40.1000000", DateTimeKind.Unspecified)]
+    [Arguments("2024-10-23 21:39:40.12", "2024-10-23T21:39:40.1200000", DateTimeKind.Unspecified)]
+    [Arguments("2024-10-23 21:39:40.123", "2024-10-23T21:39:40.1230000", DateTimeKind.Unspecified)]
+    [Arguments("2024-10-23 21:39:40.1234", "2024-10-23T21:39:40.1234000", DateTimeKind.Unspecified)]
+    [Arguments("2024-10-23 21:39:40.12345", "2024-10-23T21:39:40.1234500", DateTimeKind.Unspecified)]
+    [Arguments("2024-10-23 21:39:40.123456", "2024-10-23T21:39:40.1234560", DateTimeKind.Unspecified)]
+    [Arguments("2024-10-23 21:39:40.1234567", "2024-10-23T21:39:40.1234567", DateTimeKind.Unspecified)]
+    public async Task TryParseAsDateTime_DateTime_yyyy_MM_dd_hh_mm_ss(string time, string expected, DateTimeKind kind)
+    {
+        if (!time.TryParseAsDateTime(DateTimeType.DateTime_UniversalSortable_yyyy_MM_dd_HH_mm_ss, out var result))
+        {
+            Assert.Fail("Failed to parse time");
+        }
+
+        var formatted = result.ToString("O");
+
+        await Assert.That(formatted).IsEqualTo(expected);
+        await Assert.That(result.Kind).IsEqualTo(kind);
+    }
+    
+    [Test]
     [Arguments("0", "0001-01-01", DateTimeKind.Unspecified)]
     [Arguments("1", "0001-01-02", DateTimeKind.Unspecified)]
     [Arguments("739244", "2024-12-25", DateTimeKind.Unspecified)]

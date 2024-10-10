@@ -6,7 +6,8 @@ namespace MikeysUtils3.Pages.DateTimePage;
 public enum DateTimeType
 {
     None,
-    yyyy_MM_dd_Date_ISO_8601,
+    Date_yyyy_MM_dd_ISO_8601,
+    DateTime_UniversalSortable_yyyy_MM_dd_HH_mm_ss,
     Time_UTC_ISO_8601,
     DateTime_UTC_ISO_8601,
     DateTime_UTC_RFC_1123,
@@ -27,10 +28,11 @@ public static class DateTimeTypeExtensions
         {
             DateTimeType.None => "None",
             DateTimeType.Unknown => "Unknown",
-            DateTimeType.yyyy_MM_dd_Date_ISO_8601 => "Date (ISO 8601)",
+            DateTimeType.Date_yyyy_MM_dd_ISO_8601 => "Date (ISO 8601)",
             DateTimeType.Time_UTC_ISO_8601 => "Time - UTC (ISO 8601)",
             DateTimeType.DateTime_UTC_ISO_8601 => "Date Time - UTC (ISO 8601)",
             DateTimeType.DateTime_UTC_RFC_1123 => "Date Time - UTC (RFC 1123)",
+            DateTimeType.DateTime_UniversalSortable_yyyy_MM_dd_HH_mm_ss => "Date Time - Universal Sortable",
             DateTimeType.DayNumber => ".NET Day Number",
             DateTimeType.UnixSeconds => "Unix Seconds",
             DateTimeType.UnixMilliseconds => "Unix Milliseconds",
@@ -47,10 +49,12 @@ public static class DateTimeTypeExtensions
         {
             DateTimeType.None => "",
             DateTimeType.Unknown => "",
-            DateTimeType.yyyy_MM_dd_Date_ISO_8601 => dateTime.ToString("yyyy-MM-dd"),
+            DateTimeType.Date_yyyy_MM_dd_ISO_8601 => dateTime.ToString("yyyy-MM-dd"),
             DateTimeType.Time_UTC_ISO_8601 => dateTime.SetKind(DateTimeKind.Utc).ToString("THH:mm:ssZ"),
             DateTimeType.DateTime_UTC_ISO_8601 => dateTime.SetKind(DateTimeKind.Utc).ToString("O"),
             DateTimeType.DateTime_UTC_RFC_1123 => dateTime.SetKind(DateTimeKind.Utc).ToString("R"),
+            DateTimeType.DateTime_UniversalSortable_yyyy_MM_dd_HH_mm_ss => dateTime.ToString("yyyy-MM-dd hh:mm:ss.fffffff").TrimEnd('0', '.'),
+            // Tests for type above + finish implementation 2024-10-09 23:11:49
             DateTimeType.DayNumber => dateTime.ToDateOnly().DayNumber.ToString(),
             DateTimeType.UnixSeconds => dateTime.SinceEpoch().TotalSeconds.ToString("####################"),
             DateTimeType.UnixMilliseconds => dateTime.SinceEpoch().TotalMilliseconds.ToString("####################"),
@@ -70,7 +74,7 @@ public static class DateTimeTypeExtensions
         
         switch (type)
         {
-            case DateTimeType.yyyy_MM_dd_Date_ISO_8601:
+            case DateTimeType.Date_yyyy_MM_dd_ISO_8601:
                 return DateTime.TryParseExact(
                     _input,
                     "yyyy-MM-dd",
@@ -138,6 +142,24 @@ public static class DateTimeTypeExtensions
             case DateTimeType.DateTime_UTC_RFC_1123:
                 return DateTime.TryParseExact(
                     _input, "R", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None,
+                    out dateTimeParsed);
+            case DateTimeType.DateTime_UniversalSortable_yyyy_MM_dd_HH_mm_ss:
+                return DateTime.TryParseExact(
+                    _input, "yyyy-MM-dd HH:mm:ss.fffffff", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None,
+                    out dateTimeParsed) || DateTime.TryParseExact(
+                    _input, "yyyy-MM-dd HH:mm:ss.ffffff", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None,
+                    out dateTimeParsed) || DateTime.TryParseExact(
+                    _input, "yyyy-MM-dd HH:mm:ss.fffff", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None,
+                    out dateTimeParsed) || DateTime.TryParseExact(
+                    _input, "yyyy-MM-dd HH:mm:ss.ffff", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None,
+                    out dateTimeParsed) || DateTime.TryParseExact(
+                    _input, "yyyy-MM-dd HH:mm:ss.fff", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None,
+                    out dateTimeParsed) || DateTime.TryParseExact(
+                    _input, "yyyy-MM-dd HH:mm:ss.ff", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None,
+                    out dateTimeParsed) || DateTime.TryParseExact(
+                    _input, "yyyy-MM-dd HH:mm:ss.f", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None,
+                    out dateTimeParsed) || DateTime.TryParseExact(
+                    _input, "yyyy-MM-dd HH:mm:ss", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None,
                     out dateTimeParsed);
             case DateTimeType.DayNumber:
             {
@@ -233,7 +255,7 @@ public static class DateTimeTypeExtensions
             DateTimeType.DayNumber => true,
             DateTimeType.yMMdd_DateInt => true,
             DateTimeType.yyyyMMdd_DateBasic => true,
-            DateTimeType.yyyy_MM_dd_Date_ISO_8601 => true,
+            DateTimeType.Date_yyyy_MM_dd_ISO_8601 => true,
             _ => false,
         };
     }
@@ -245,6 +267,7 @@ public static class DateTimeTypeExtensions
             DateTimeType.Time_UTC_ISO_8601 => true,
             DateTimeType.DateTime_UTC_ISO_8601 => true,
             DateTimeType.DateTime_UTC_RFC_1123 => true,
+            DateTimeType.DateTime_UniversalSortable_yyyy_MM_dd_HH_mm_ss => true,
             DateTimeType.UnixSeconds => true,
             DateTimeType.UnixMilliseconds => true,
             DateTimeType.UnixNanoSeconds => true,
@@ -256,9 +279,10 @@ public static class DateTimeTypeExtensions
     {
         return dateTimeType switch
         {
-            DateTimeType.yyyy_MM_dd_Date_ISO_8601 => true,
+            DateTimeType.Date_yyyy_MM_dd_ISO_8601 => true,
             DateTimeType.DateTime_UTC_ISO_8601 => true,
             DateTimeType.DateTime_UTC_RFC_1123 => true,
+            DateTimeType.DateTime_UniversalSortable_yyyy_MM_dd_HH_mm_ss => true,
             DateTimeType.DayNumber => true,
             DateTimeType.UnixSeconds => true,
             DateTimeType.UnixMilliseconds => true,
