@@ -37,7 +37,7 @@ public static class DateTimeTypeExtensions
             DateTimeType.UnixSeconds => "Unix Seconds",
             DateTimeType.UnixMilliseconds => "Unix Milliseconds",
             DateTimeType.UnixNanoSeconds => "Unix Nanoseconds",
-            DateTimeType.yyyyMMdd_DateBasic => "Date (ISO 8601 Basic)",
+            DateTimeType.yyyyMMdd_DateBasic => "Date (ISO 8601 Basic)",  // TODO: implement ISO BASIC parsing
             DateTimeType.yMMdd_DateInt => "Date (Int32)",
             _ => throw new ArgumentOutOfRangeException(nameof(dateTimeType), dateTimeType, null)
         };

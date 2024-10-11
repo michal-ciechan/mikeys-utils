@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Meziantou.Framework.InlineSnapshotTesting" Version="3.0.8" />
         <PackageReference Include="TUnit" Version="0.1.842" />
     </ItemGroup>
 
