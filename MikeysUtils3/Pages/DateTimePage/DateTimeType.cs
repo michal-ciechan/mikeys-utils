@@ -68,15 +68,16 @@ public static class DateTimeTypeExtensions
     public static TimeSpan MaxUnixTimestamp = DateTime.MaxValue - DateTime.UnixEpoch;
     public static TimeSpan MinUnixTimestamp = DateTime.MinValue - DateTime.UnixEpoch;
 
-    public static bool TryParseAsDateTime(this string _input, DateTimeType type, out DateTime dateTimeParsed)
+    public static bool TryParseAsDateTime(this string input, DateTimeType type, out DateTime dateTimeParsed)
     {
+        input = input.Trim();
         dateTimeParsed = default;
         
         switch (type)
         {
             case DateTimeType.Date_yyyy_MM_dd_ISO_8601:
                 return DateTime.TryParseExact(
-                    _input,
+                    input,
                     "yyyy-MM-dd",
                     CultureInfo.InvariantCulture,
                     DateTimeStyles.None,
@@ -85,25 +86,25 @@ public static class DateTimeTypeExtensions
             case DateTimeType.Time_UTC_ISO_8601:
                 // Extended format
                 return DateTime.TryParseExact(
-                    _input,
+                    input,
                     "THH:mm:ssZ",
                     CultureInfo.InvariantCulture,
                     DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal,
                     out dateTimeParsed
                 ) || DateTime.TryParseExact(
-                    _input,
+                    input,
                     "THH:mm:sszzz",
                     CultureInfo.InvariantCulture,
                     DateTimeStyles.AdjustToUniversal,
                     out dateTimeParsed
                 ) || DateTime.TryParseExact(
-                    _input,
+                    input,
                     "THH:mm:sszz",
                     CultureInfo.InvariantCulture,
                     DateTimeStyles.AdjustToUniversal,
                     out dateTimeParsed
                 ) || DateTime.TryParseExact(
-                    _input,
+                    input,
                     "THH:mm:ss",
                     CultureInfo.InvariantCulture,
                     DateTimeStyles.AdjustToUniversal,
@@ -111,25 +112,25 @@ public static class DateTimeTypeExtensions
                 ) || 
                        // Basic Format
                        DateTime.TryParseExact(
-                    _input,
+                    input,
                     "THHmmssZ",
                     CultureInfo.InvariantCulture,
                     DateTimeStyles.AssumeUniversal | DateTimeStyles.AdjustToUniversal,
                     out dateTimeParsed
                 ) || DateTime.TryParseExact(
-                    _input,
+                    input,
                     "THHmmsszzz",
                     CultureInfo.InvariantCulture,
                     DateTimeStyles.AdjustToUniversal,
                     out dateTimeParsed
                 ) || DateTime.TryParseExact(
-                    _input,
+                    input,
                     "THHmmsszz",
                     CultureInfo.InvariantCulture,
                     DateTimeStyles.AdjustToUniversal,
                     out dateTimeParsed
                 ) || DateTime.TryParseExact(
-                    _input,
+                    input,
                     "THHmmss",
                     CultureInfo.InvariantCulture,
                     DateTimeStyles.AdjustToUniversal,
@@ -137,33 +138,39 @@ public static class DateTimeTypeExtensions
                 );
             case DateTimeType.DateTime_UTC_ISO_8601:
                 return DateTime.TryParseExact(
-                    _input, "O", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None,
+                    input, "O", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None,
                     out dateTimeParsed);
             case DateTimeType.DateTime_UTC_RFC_1123:
                 return DateTime.TryParseExact(
-                    _input, "R", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None,
+                    input, "R", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None,
                     out dateTimeParsed);
             case DateTimeType.DateTime_UniversalSortable_yyyy_MM_dd_HH_mm_ss:
+                input = input.Trim(['.', ':']).Trim();
+                
                 return DateTime.TryParseExact(
-                    _input, "yyyy-MM-dd HH:mm:ss.fffffff", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None,
+                    input, "yyyy-MM-dd HH:mm:ss.fffffff", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None,
                     out dateTimeParsed) || DateTime.TryParseExact(
-                    _input, "yyyy-MM-dd HH:mm:ss.ffffff", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None,
+                    input, "yyyy-MM-dd HH:mm:ss.ffffff", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None,
                     out dateTimeParsed) || DateTime.TryParseExact(
-                    _input, "yyyy-MM-dd HH:mm:ss.fffff", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None,
+                    input, "yyyy-MM-dd HH:mm:ss.fffff", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None,
                     out dateTimeParsed) || DateTime.TryParseExact(
-                    _input, "yyyy-MM-dd HH:mm:ss.ffff", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None,
+                    input, "yyyy-MM-dd HH:mm:ss.ffff", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None,
                     out dateTimeParsed) || DateTime.TryParseExact(
-                    _input, "yyyy-MM-dd HH:mm:ss.fff", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None,
+                    input, "yyyy-MM-dd HH:mm:ss.fff", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None,
                     out dateTimeParsed) || DateTime.TryParseExact(
-                    _input, "yyyy-MM-dd HH:mm:ss.ff", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None,
+                    input, "yyyy-MM-dd HH:mm:ss.ff", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None,
                     out dateTimeParsed) || DateTime.TryParseExact(
-                    _input, "yyyy-MM-dd HH:mm:ss.f", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None,
+                    input, "yyyy-MM-dd HH:mm:ss.f", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None,
                     out dateTimeParsed) || DateTime.TryParseExact(
-                    _input, "yyyy-MM-dd HH:mm:ss", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None,
+                    input, "yyyy-MM-dd HH:mm:ss", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None,
+                    out dateTimeParsed) || DateTime.TryParseExact(
+                    input, "yyyy-MM-dd HH:mm", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None,
+                    out dateTimeParsed) || DateTime.TryParseExact(
+                    input, "yyyy-MM-dd HH", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None,
                     out dateTimeParsed);
             case DateTimeType.DayNumber:
             {
-                if (!long.TryParse(_input, out var longParsed))
+                if (!long.TryParse(input, out var longParsed))
                 {
                     return false;
                 }
@@ -178,7 +185,7 @@ public static class DateTimeTypeExtensions
             }
             case DateTimeType.UnixSeconds:
             {
-                if (!long.TryParse(_input, out var longParsed))
+                if (!long.TryParse(input, out var longParsed))
                 {
                     return false;
                 }
@@ -193,7 +200,7 @@ public static class DateTimeTypeExtensions
             }
             case DateTimeType.UnixMilliseconds:
             {
-                if (!long.TryParse(_input, out var longParsed))
+                if (!long.TryParse(input, out var longParsed))
                 {
                     return false;
                 }
@@ -208,7 +215,7 @@ public static class DateTimeTypeExtensions
             }
             case DateTimeType.UnixNanoSeconds:
             {
-                if (!long.TryParse(_input, out var longParsed))
+                if (!long.TryParse(input, out var longParsed))
                 {
                     return false;
                 }
@@ -225,9 +232,9 @@ public static class DateTimeTypeExtensions
                 break;
             case DateTimeType.yMMdd_DateInt:
                 return DateTime.TryParseExact(
-                    _input, "yyyMMdd", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None,
+                    input, "yyyMMdd", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None,
                     out dateTimeParsed) || DateTime.TryParseExact(
-                    _input, "yMMdd", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None,
+                    input, "yMMdd", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None,
                     out dateTimeParsed) && dateTimeParsed.Year < 100;
             case DateTimeType.None:
             case DateTimeType.Unknown:
