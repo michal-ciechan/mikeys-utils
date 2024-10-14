@@ -28,8 +28,6 @@ public class DateTimeTypeExtensionTests
         await Assert.That(result.Kind).IsEqualTo(kind);
     }
     
-    // TODO: refactor tests to be based on input and all output
-    
     [Test]
     [Arguments("2024-10-23 21:39:40", "2024-10-23T21:39:40.0000000", DateTimeKind.Unspecified)]
     [Arguments("2024-10-23 21:39:40.1", "2024-10-23T21:39:40.1000000", DateTimeKind.Unspecified)]

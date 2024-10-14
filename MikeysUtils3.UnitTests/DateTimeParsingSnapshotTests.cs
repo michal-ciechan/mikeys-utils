@@ -134,6 +134,87 @@ public class DateTimeParsingSnapshotTests
             """
         );
     }
+    
+    [Test]
+    public async Task DateIntSimple()
+    {
+        var input = "20241023";
+
+        var results = Parse(input);
+
+        InlineSnapshot.Validate(
+            results,
+            """
+            - DateTimeType: UnixSeconds
+              ParsedDateTime: 1970-08-23T06:30:23.0000000Z
+              Kind: Utc
+            - DateTimeType: UnixMilliseconds
+              ParsedDateTime: 1970-01-01T05:37:21.0230000Z
+              Kind: Utc
+            - DateTimeType: UnixNanoSeconds
+              ParsedDateTime: 1970-01-01T00:00:00.0202410Z
+              Kind: Utc
+            - DateTimeType: yyyyMMdd_DateBasic
+              ParsedDateTime: 2024-10-23T00:00:00.0000000
+            - DateTimeType: yMMdd_DateInt
+              ParsedDateTime: 2024-10-23T00:00:00.0000000
+            """
+        );
+    }
+    
+    [Test]
+    public async Task DateIntDoubleTripleDigitYear()
+    {
+        var input = "1691023";
+
+        var results = Parse(input);
+
+        InlineSnapshot.Validate(
+            results,
+            """
+            - DateTimeType: DayNumber
+              ParsedDateTime: 4630-11-13T00:00:00.0000000
+            - DateTimeType: UnixSeconds
+              ParsedDateTime: 1970-01-20T13:43:43.0000000Z
+              Kind: Utc
+            - DateTimeType: UnixMilliseconds
+              ParsedDateTime: 1970-01-01T00:28:11.0230000Z
+              Kind: Utc
+            - DateTimeType: UnixNanoSeconds
+              ParsedDateTime: 1970-01-01T00:00:00.0016910Z
+              Kind: Utc
+            - DateTimeType: yMMdd_DateInt
+              ParsedDateTime: 0169-10-23T00:00:00.0000000
+            """
+        );
+    }
+    
+    [Test]
+    public async Task DateIntDoubleDigitYear()
+    {
+        var input = "691023";
+
+        var results = Parse(input);
+
+        InlineSnapshot.Validate(
+            results,
+            """
+            - DateTimeType: DayNumber
+              ParsedDateTime: 1892-12-16T00:00:00.0000000
+            - DateTimeType: UnixSeconds
+              ParsedDateTime: 1970-01-08T23:57:03.0000000Z
+              Kind: Utc
+            - DateTimeType: UnixMilliseconds
+              ParsedDateTime: 1970-01-01T00:11:31.0230000Z
+              Kind: Utc
+            - DateTimeType: UnixNanoSeconds
+              ParsedDateTime: 1970-01-01T00:00:00.0006910Z
+              Kind: Utc
+            - DateTimeType: yMMdd_DateInt
+              ParsedDateTime: 0069-10-23T00:00:00.0000000
+            """
+        );
+    }
 
     private static List<Result> Parse(string input)
     {
