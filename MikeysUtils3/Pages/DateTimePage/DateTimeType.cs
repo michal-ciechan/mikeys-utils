@@ -138,8 +138,10 @@ public static class DateTimeTypeExtensions
                        );
             case DateTimeType.DateTime_UTC_ISO_8601:
                 return DateTime.TryParseExact(
-                    input, "O", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None,
-                    out dateTimeParsed);
+                           input, "O", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None,
+                           out dateTimeParsed) ||
+                       DateTime.TryParseExact(input, "yyyy-MM-ddTHH:mm:ssZ", DateTimeFormatInfo.InvariantInfo,
+                           DateTimeStyles.AdjustToUniversal, out dateTimeParsed);
             case DateTimeType.DateTime_UTC_RFC_1123:
                 return DateTime.TryParseExact(
                     input, "R", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None,

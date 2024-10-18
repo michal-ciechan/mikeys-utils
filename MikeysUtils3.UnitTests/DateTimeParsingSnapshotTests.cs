@@ -215,6 +215,23 @@ public class DateTimeParsingSnapshotTests
             """
         );
     }
+    
+    [Test]
+    public async Task RoundtripStandard_NoMilliSeconds()
+    {
+        var input = "2024-10-16T17:03:43Z";
+
+        var results = Parse(input);
+
+        InlineSnapshot.Validate(
+            results,
+            """
+            - DateTimeType: DateTime_UTC_ISO_8601
+              ParsedDateTime: 2024-10-16T17:03:43.0000000Z
+              Kind: Utc
+            """
+        );
+    }
 
     private static List<Result> Parse(string input)
     {
