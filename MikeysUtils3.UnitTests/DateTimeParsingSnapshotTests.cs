@@ -232,6 +232,23 @@ public class DateTimeParsingSnapshotTests
             """
         );
     }
+    
+    [Test]
+    public async Task DateTime_RFC1123()
+    {
+        var input = "Mon, 30 Sep 2024 17:58:47 GMT";
+
+        var results = Parse(input);
+
+        InlineSnapshot.Validate(
+            results,
+            """
+            - DateTimeType: DateTime_UTC_RFC_1123
+              ParsedDateTime: 2024-09-30T17:58:47.0000000Z
+              Kind: Utc
+            """
+        );
+    }
 
     private static List<Result> Parse(string input)
     {
