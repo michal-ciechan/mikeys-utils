@@ -28,6 +28,23 @@ public class DateTimeTypeExtensionTests
         await Assert.That(result.Kind).IsEqualTo(kind);
     }
     
+    
+    [Test]
+    [Arguments("2024", "1970-01-01T00:33:44.0000000Z", DateTimeKind.Utc)]
+    public async Task TryParseAsUnixSeconds(string time, string expected, DateTimeKind kind)
+    {
+        if (!time.TryParseAsDateTime(DateTimeType.UnixSeconds, out var result))
+        {
+            Assert.Fail("Failed to parse time");
+        }
+
+        var formatted = result.ToString("O");
+
+        await Assert.That(formatted).IsEqualTo(expected);
+        await Assert.That(result.Kind).IsEqualTo(kind);
+        await Assert.That((long)result.SinceEpoch().TotalSeconds).IsEqualTo(long.Parse(time));
+    }
+    
     [Test]
     [Arguments("2024-10-23 21:39:40", "2024-10-23T21:39:40.0000000", DateTimeKind.Unspecified)]
     [Arguments("2024-10-23 21:39:40.1", "2024-10-23T21:39:40.1000000", DateTimeKind.Unspecified)]

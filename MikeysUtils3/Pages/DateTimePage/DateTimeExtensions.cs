@@ -14,7 +14,7 @@ public static class DateTimeExtensions
 
     public static TimeSpan SinceEpoch(this DateTime dateTime)
     {
-        return new TimeSpan(dateTime.Ticks - dateTime.Ticks % TimeSpan.TicksPerSecond);
+        return new TimeSpan(dateTime.Ticks - DateTime.UnixEpoch.Ticks);
     }
     
     public static DateOnly ToDateOnly(this DateTime dateTimeType)
