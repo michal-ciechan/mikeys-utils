@@ -9,7 +9,8 @@
     <div class="col">
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">Input Date / Time</span>
-            <input type="text" class="form-control form-control-lg" placeholder="Input Date/Time String Here" @bind="_input" @bind:after="OnInputChanged" @bind:event="oninput"/>
+            <input type="text" class="form-control form-control-lg" placeholder="Input Date/Time String Here"
+                   @bind="_input" @bind:after="OnInputChanged" @bind:event="oninput" @ref="_textInputElement" />
         </div>
     </div>
 </div>
@@ -97,6 +98,7 @@
 
     // Parsing
     private string _input = "";
+    private ElementReference _textInputElement;
 
     private void OnInputChanged()
     {
@@ -124,6 +126,14 @@
             {
                 Console.WriteLine($"Error parsing {_input} as {dateTimeType}. Error: {e}");
             }
+        }
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _textInputElement.FocusAsync();
         }
     }
 }
