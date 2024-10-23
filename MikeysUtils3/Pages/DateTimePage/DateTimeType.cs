@@ -144,7 +144,8 @@ public static class DateTimeTypeExtensions
                            DateTimeStyles.AdjustToUniversal, out dateTimeParsed);
             case DateTimeType.DateTime_UTC_RFC_1123:
                 return DateTime.TryParseExact(
-                    input, "R", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None,
+                    input, "R", DateTimeFormatInfo.InvariantInfo,
+                    DateTimeStyles.AdjustToUniversal | DateTimeStyles.AssumeUniversal,
                     out dateTimeParsed);
             case DateTimeType.DateTime_UniversalSortable_yyyy_MM_dd_HH_mm_ss:
                 input = input.Trim(['.', ':']).Trim();
