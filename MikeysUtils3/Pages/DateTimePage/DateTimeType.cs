@@ -22,6 +22,22 @@ public enum DateTimeType
 
 public static class DateTimeTypeExtensions
 {
+    // TODO: Get regex to get numbers only?
+    // private Regex NonNumbersRegex  = new(@"^\d+$");
+    static DateTimeTypeExtensions()
+    {
+        HashSet<char> numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+        HashSet<char> dayOfWeekFirstLetters = ['M', 'm', 'T', 't', 'W', 'w', 'F', 'f', 'S', 's'];
+        HashSet<char> validPrefixChars = [ ..numbers, 'T', '-', ..dayOfWeekFirstLetters ];
+        HashSet<char> validSuffixChars = [ ..numbers, 'T', 'Z', 'z'];
+
+        InvalidPrefixChars = Enumerable.Range(0, char.MaxValue).Select(x => (char)x).Except(validPrefixChars).ToArray();
+        InvalidSuffixChars = Enumerable.Range(0, char.MaxValue).Select(x => (char)x).Except(validSuffixChars).ToArray();
+    }
+
+    public static char[] InvalidSuffixChars { get; set; }
+    public static char[] InvalidPrefixChars { get; set; }
+
     public static string ToDescription(this DateTimeType dateTimeType)
     {
         return dateTimeType switch
@@ -70,7 +86,7 @@ public static class DateTimeTypeExtensions
 
     public static bool TryParseAsDateTime(this string input, DateTimeType type, out DateTime dateTimeParsed)
     {
-        input = input.Trim();
+        input = input.TrimStart(InvalidPrefixChars).TrimEnd(InvalidSuffixChars);
         dateTimeParsed = default;
 
         switch (type)

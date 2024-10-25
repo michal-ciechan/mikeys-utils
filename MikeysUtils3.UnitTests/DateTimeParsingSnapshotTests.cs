@@ -249,7 +249,34 @@ public class DateTimeParsingSnapshotTests
             """
         );
     }
+    
+    [Test]
+    public async Task DateTime_BasicInt_WithSuffix()
+    {
+        var input = "20240101-";
 
+        var results = Parse(input);
+
+        InlineSnapshot.Validate(
+            results,
+            """
+            - DateTimeType: UnixSeconds
+              ParsedDateTime: 1970-08-23T06:15:01.0000000Z
+              Kind: Utc
+            - DateTimeType: UnixMilliseconds
+              ParsedDateTime: 1970-01-01T05:37:20.1010000Z
+              Kind: Utc
+            - DateTimeType: UnixNanoSeconds
+              ParsedDateTime: 1970-01-01T00:00:00.0202401Z
+              Kind: Utc
+            - DateTimeType: yyyyMMdd_DateBasic
+              ParsedDateTime: 2024-01-01T00:00:00.0000000
+            - DateTimeType: yMMdd_DateInt
+              ParsedDateTime: 2024-01-01T00:00:00.0000000
+            """
+        );
+    }
+    
     private static List<Result> Parse(string input)
     {
         List<Result> results = [];
