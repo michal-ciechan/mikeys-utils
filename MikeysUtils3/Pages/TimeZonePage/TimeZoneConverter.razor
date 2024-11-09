@@ -1,10 +1,13 @@
 ﻿@page "/time-zone"
+@using NodaTime
 
 <PageTitle>Time Zone Converter</PageTitle>
 
 <div class="d-flex flex-row justify-content-center">
     <div class="w-auto">
-        <div class="text-center"><i class="bi bi-cone-striped text-warning" style="font-size: 5rem;"></i></div>
+        <div class="text-center">
+            <i class="bi bi-cone-striped text-warning" style="font-size: 5rem;"></i>
+        </div>
     </div>
     <div>
         <h1 class="text-center text-primary">Time Zone Converter</h1>
@@ -15,20 +18,54 @@
 <div class="row gy-2 mb-2">
     <div class="col">
         <div class="input-group mb-3">
-            <span class="input-group-text" id="basic-addon1">Input Date / Time</span>
-            <input type="text" class="form-control form-control-lg" placeholder="Input Date/Time String Here" @bind="_input" @bind:after="OnInputChanged" @bind:event="oninput"/>
+            <span class="input-group-text" id="basic-addon1">Input Time</span>
+            <input type="text" class="form-control form-control-lg" placeholder="Input Time. Example: 08:50:39.1234123, 24, 18 BST to EDT, 17 Chicago to London" @bind="_input" @bind:after="OnInputChanged" @bind:event="oninput"/>
         </div>
     </div>
 </div>
-<div class="row gy-4">
-   
+<div class="row gy-4 flex-row">
+    <div class="col d-flex flex-row btn-group-multi-vertical">
+        @for (int col = 0; col < _zones.Count; col++)
+        {
+            <div style="width: 70px; background-color: pink;">
+                <div class="btn-group-vertical bg-light w-100">
+                    @for (int i = 0; i < 24; i++)
+                    {
+                        if (i == @DateTime.Now.Hour)
+                        {
+                            <button type="button" class="btn btn-primary">@i.ToString("00:\\0\\0") </button>
+                        }
+                        else
+                        {
+                            <button type="button" class="btn btn-outline-primary">@i.ToString("00:\\0\\0")</button>
+                        }
+                    }
+                </div>
+            </div>
+        }
+    </div>
 </div>
 
 
 @code {
+
+    private record DateTimeZoneInfo(DateTimeZone Zone);
+    
     private string _input = "";
+
+    private List<DateTimeZoneInfo> _zones = [
+        new (DateTimeZoneProviders.Tzdb["America/Los_Angeles"]),
+        new (DateTimeZoneProviders.Tzdb["America/Chicago"]),
+        new (DateTimeZoneProviders.Tzdb["America/New_York"]),
+        new (DateTimeZoneProviders.Tzdb["Etc/UTC"]),
+        new (DateTimeZoneProviders.Tzdb["Europe/London"]),
+        new (DateTimeZoneProviders.Tzdb["Europe/Amsterdam"]),
+        new (DateTimeZoneProviders.Tzdb["Asia/Hong_Kong"]), 
+        new (DateTimeZoneProviders.Tzdb["Australia/Sydney"]),
+    ]; 
 
     private void OnInputChanged()
     {
     }
+
 }
