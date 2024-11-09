@@ -277,6 +277,22 @@ public class DateTimeParsingSnapshotTests
         );
     }
     
+    [Test]
+    public async Task DateTime_BasicInt_WithHourOnly()
+    {
+        var input = "20240101 23";
+
+        var results = Parse(input);
+
+        InlineSnapshot.Validate(
+            results,
+            """
+            - DateTimeType: DateTimeBasic_yyyyMMdd_HHmmssfffffff
+              ParsedDateTime: 2024-01-01T23:00:00.0000000
+            """
+        );
+    }
+    
     private static List<Result> Parse(string input)
     {
         List<Result> results = [];

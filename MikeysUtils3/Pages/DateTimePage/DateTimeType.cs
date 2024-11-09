@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace MikeysUtils3.Pages.DateTimePage;
 
@@ -16,11 +17,12 @@ public enum DateTimeType
     UnixMilliseconds,
     UnixNanoSeconds,
     yyyyMMdd_DateBasic,
+    DateTimeBasic_yyyyMMdd_HHmmssfffffff,
     yMMdd_DateInt,
     Unknown
 }
 
-public static class DateTimeTypeExtensions
+public static partial class DateTimeTypeExtensions
 {
     // TODO: Get regex to get numbers only?
     // private Regex NonNumbersRegex  = new(@"^\d+$");
@@ -248,6 +250,29 @@ public static class DateTimeTypeExtensions
 
                 return false;
             }
+            case DateTimeType.DateTimeBasic_yyyyMMdd_HHmmssfffffff:
+                input = input.Replace(" ", "");
+                return DateTime.TryParseExact(
+                    input, "yyyyMMddHH", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None,
+                    out dateTimeParsed) || DateTime.TryParseExact(
+                    input, "yyyyMMddHHmm", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None,
+                    out dateTimeParsed) || DateTime.TryParseExact(
+                    input, "yyyyMMddHHmmss", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None,
+                    out dateTimeParsed) || DateTime.TryParseExact(
+                    input, "yyyyMMddHHmmssf", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None,
+                    out dateTimeParsed) || DateTime.TryParseExact(
+                    input, "yyyyMMddHHmmssff", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None,
+                    out dateTimeParsed) || DateTime.TryParseExact(
+                    input, "yyyyMMddHHmmssfff", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None,
+                    out dateTimeParsed) || DateTime.TryParseExact(
+                    input, "yyyyMMddHHmmssffff", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None,
+                    out dateTimeParsed) || DateTime.TryParseExact(
+                    input, "yyyyMMddHHmmssfffff", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None,
+                    out dateTimeParsed) || DateTime.TryParseExact(
+                    input, "yyyyMMddHHmmssffffff", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None,
+                    out dateTimeParsed) || DateTime.TryParseExact(
+                    input, "yyyyMMddHHmmssfffffff", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None,
+                    out dateTimeParsed);
             case DateTimeType.yyyyMMdd_DateBasic:
                 return DateTime.TryParseExact(
                     input, "yyyyMMdd", DateTimeFormatInfo.InvariantInfo, DateTimeStyles.None,
