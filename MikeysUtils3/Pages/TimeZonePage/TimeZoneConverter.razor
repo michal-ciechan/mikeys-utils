@@ -24,6 +24,16 @@
     </div>
 </div>
 <div class="row gy-4 flex-row">
+    <div class="col d-flex flex-row">
+        @foreach (var zone in _zones)
+        {
+            <h4 style="width: 70px;" class="text-center">
+                @zone.DisplayName
+            </h4>
+        }
+    </div>
+</div>
+<div class="row gy-4 flex-row">
     <div class="col d-flex flex-row btn-group-multi-vertical">
         @for (int col = 0; col < _zones.Count; col++)
         {
@@ -48,20 +58,19 @@
 
 
 @code {
-
-    private record DateTimeZoneInfo(DateTimeZone Zone);
     
     private string _input = "";
+    private Instant _time = SystemClock.Instance.GetCurrentInstant();
 
     private List<DateTimeZoneInfo> _zones = [
-        new (DateTimeZoneProviders.Tzdb["America/Los_Angeles"]),
-        new (DateTimeZoneProviders.Tzdb["America/Chicago"]),
-        new (DateTimeZoneProviders.Tzdb["America/New_York"]),
-        new (DateTimeZoneProviders.Tzdb["Etc/UTC"]),
-        new (DateTimeZoneProviders.Tzdb["Europe/London"]),
-        new (DateTimeZoneProviders.Tzdb["Europe/Amsterdam"]),
-        new (DateTimeZoneProviders.Tzdb["Asia/Hong_Kong"]), 
-        new (DateTimeZoneProviders.Tzdb["Australia/Sydney"]),
+        DateTimeZoneInfo.America_LosAngeles, 
+        DateTimeZoneInfo.America_Chicago, 
+        DateTimeZoneInfo.America_NewYork, 
+        DateTimeZoneInfo.Utc, 
+        DateTimeZoneInfo.Europe_London, 
+        DateTimeZoneInfo.Europe_Amsterdam, 
+        DateTimeZoneInfo.Asia_HongKong, 
+        DateTimeZoneInfo.Australia_Sydney, 
     ]; 
 
     private void OnInputChanged()
