@@ -35,19 +35,26 @@
 </div>
 <div class="row gy-4 flex-row">
     <div class="col d-flex flex-row btn-group-multi-vertical">
-        @for (int col = 0; col < _zones.Count; col++)
+        @foreach (var zone in _zones)
         {
             <div style="width: 70px; background-color: pink;">
                 <div class="btn-group-vertical bg-light w-100">
+                    @{
+                        var zeroTime = _zonedDateTime.PlusHours(-_zonedDateTime.Hour);
+                    }
                     @for (int i = 0; i < 24; i++)
                     {
-                        if (i == @DateTime.Now.Hour)
+                        var isCurrentRow = i == _zonedDateTime.Hour;
+                        
+                        var hour = zeroTime.PlusHours(i).WithZone(zone.Zone).Hour;
+                        
+                        if (isCurrentRow)
                         {
-                            <button type="button" class="btn btn-primary">@i.ToString("00:\\0\\0") </button>
+                            <button type="button" class="btn btn-primary">@hour.ToString("00:\\0\\0") </button>
                         }
                         else
                         {
-                            <button type="button" class="btn btn-outline-primary">@i.ToString("00:\\0\\0")</button>
+                            <button type="button" class="btn btn-outline-primary">@hour.ToString("00:\\0\\0")</button>
                         }
                     }
                 </div>
@@ -60,7 +67,9 @@
 @code {
     
     private string _input = "";
-    private Instant _time = SystemClock.Instance.GetCurrentInstant();
+    private Instant _instant = SystemClock.Instance.GetCurrentInstant();
+    private ZonedDateTime _zonedDateTime => _instant.InZone(_chosenTimeZone.Zone);
+    private DateTimeZoneInfo _chosenTimeZone = DateTimeZoneInfo.Utc; 
 
     private List<DateTimeZoneInfo> _zones = [
         DateTimeZoneInfo.America_LosAngeles, 
