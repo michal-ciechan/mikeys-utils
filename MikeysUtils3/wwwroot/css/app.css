@@ -123,3 +123,7 @@ code {
         }
     }
 }
+
+.previous-date, .next-date {
+    filter: brightness(50%);
+}
