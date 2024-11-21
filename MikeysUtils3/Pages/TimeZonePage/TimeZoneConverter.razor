@@ -27,7 +27,7 @@
     <div class="col d-flex flex-row">
         @foreach (var zone in _zones)
         {
-            <h4 style="width: 70px;" class="text-center">
+            <h4 style="width: 4rem;" class="text-center">
                 @zone.DisplayName
             </h4>
         }
@@ -37,9 +37,7 @@
     <div class="col d-flex flex-row btn-group-multi-vertical">
         @foreach (var zone in _zones)
         {
-            // Add T+1 / T-1 to times
-
-            <div style="width: 70px; background-color: pink;">
+            <div style="width: 4rem; background-color: pink;">
                 <div class="btn-group-vertical bg-light w-100">
                     @{
                         var zeroTime = _zonedDateTime.PlusHours(-_zonedDateTime.Hour);
@@ -48,6 +46,7 @@
                     
                     @for (int i = 0; i < 24; i++)
                     {
+                        var height = "height: 3rem";
                         var isCurrentRow = i == _zonedDateTime.Hour;
 
                         var currentColumnTime = zeroTime.PlusHours(i).WithZone(zone.Zone);
@@ -61,21 +60,36 @@
 
                         var active = isSelectedTimeZone ? "active" : "";
                         
+                        var btn_primary = "btn-outline-primary";
+                        var btn_padding = "";
+                        
                         if (isCurrentRow)
                         {
-                            <button type="button" class="btn btn-primary @dateClass @active">@hour.ToString("00:\\0\\0") </button>
+                            btn_primary = "btn-primary";
                         }
-                        else
+                        else if (isPreviousDay || isNextDay)
                         {
-                            var btn_primary = "btn btn-outline-primary";
-                            
-                            if (isPreviousDay || isNextDay)
-                            {
-                                btn_primary = "btn-secondary";
-                            }
-                            
-                            <button type="button" class="btn @btn_primary @dateClass @active">@hour.ToString("00:\\0\\0")</button>
+                            btn_primary = "btn-secondary";
+                            btn_padding = "p-0";
                         }
+                        
+                        <button type="button" class="btn @btn_primary @dateClass @active @btn_padding" style="height: 3rem; z-index: 0">
+
+                            @hour.ToString("00:\\0\\0")
+                            
+                            
+                            @if (isPreviousDay || isNextDay) 
+                            {
+                                var t1 = isPreviousDay ? "T-1" : "T+1";
+                                var marginBottom = isPreviousDay ? "-40%" : "40%";
+                            
+
+                                <div class="w-100 h-100 d-flex flex-column justify-content-center align-content-center" style="position: absolute; top: 0; left: 0;">
+                                    <small style="font-size: 0.7rem; margin-bottom: @marginBottom">@t1</small>
+                                </div>
+                            
+                            }
+                        </button>
                     }
                 </div>
             </div>
