@@ -16,4 +16,10 @@
       <AdditionalFiles Include="Pages\DateTimePage\DateTimeConverter.razor" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Content Include="..\images\World_Time_Zones_Map.svg">
+        <Link>Pages\TimeZonePage\World_Time_Zones_Map.svg</Link>
+      </Content>
+    </ItemGroup>
+
 </Project>

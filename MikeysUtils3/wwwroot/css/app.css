@@ -127,3 +127,14 @@ code {
 .previous-date, .next-date {
     filter: brightness(50%);
 }
+
+path.timezone {
+    pointer-events: all;
+    
+    :hover{
+        cursor: pointer;
+        fill: brown;
+        opacity: 1;
+        display: block;
+    }
+}
